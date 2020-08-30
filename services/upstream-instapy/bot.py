@@ -5,6 +5,7 @@ import requests
 import json
 import platform
 import signal
+import time
 from os import getenv
 from websocket import create_connection
 from instapy import InstaPy, set_workspace
@@ -62,6 +63,8 @@ class my_handler(logging.Handler):
                     {'handler': 'instapy_log', 'message': message, 'ident': ident}
                 )
             )
+            with open('time', 'w') as f:
+                f.write(str(time.time()))
             self.disconnect()
         except Exception as e:
             print('error sending log:', e)

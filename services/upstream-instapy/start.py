@@ -13,12 +13,17 @@ import json
 import time
 import websocket
 import requests
+import threading
 
 # constants
 AUTH_ENDPOINT = os.getenv('AUTH_ENDPOINT', 'https://auth.instapy.io')
 CONFIG_ENDPOINT = os.getenv('CONFIG_ENDPOINT', 'https://config.instapy.io')
 SOCKET_ENDPOINT = os.getenv('SOCKET_ENDPOINT', 'wss://socket.instapy.io')
+INSTAPY_USER = os.getenv('INSTAPY_USER')
+INSTAPY_PASSWORD = os.getenv('INSTAPY_PASSWORD')
 IDENT = os.getenv('IDENT')
+
+print('Running instabot version: 1.0.0')
 
 if not IDENT:
     print('IDENT not provided')
@@ -55,6 +60,7 @@ def on_open(ws):
     print('goto instapy.io and take off!')
     global IDENT
     ws.send(json.dumps({'handler': 'register', 'type': 'instapy', 'ident': IDENT}))
+    threading.Thread(target=print_status, args=(ws,)).start()
 
 
 def get_token(username, password):
@@ -72,6 +78,12 @@ def get_token(username, password):
     print(f'logged in with user: {username}')
     return response['token']
 
+def print_status(ws):
+    while True:
+        time.sleep(10)
+        status = get_status(ws, None)
+        with open('status', 'w') as f:
+            f.write(status)
 
 # utils
 def kill():
@@ -107,6 +119,9 @@ def get_status(ws, data):
     global SETTING
 
     status = 'running' if PROCESS else 'stopped'
+
+    if data is None:
+        return status
 
     ws.send(
         json.dumps(
@@ -169,8 +184,8 @@ def stop(ws, data):
 HANDLERS['stop'] = stop
 
 if __name__ == '__main__':
-    username = os.getenv('INSTAPY_USER')
-    password = os.getenv('INSTAPY_PASSWORD')
+    username = INSTAPY_USER
+    password = INSTAPY_PASSWORD
 
     TOKEN = get_token(username, password)
     header = {'Authorization': f'Bearer {TOKEN}'}
