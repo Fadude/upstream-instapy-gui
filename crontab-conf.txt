@@ -1,0 +1,4 @@
+0 9-21 * * * docker run -d --name or-vaknin-bot --env-file /home/centos/instapy/instabot-users/or-vaknin.env -v or-vaknin-bot:/usr/instapy/assets fadude/upstream-instapy-client:latest
+*/20 9-21 * * * docker run -d --env-file /home/centos/instapy/instabot-users/or-vaknin.env -e COMMAND=start fadude/upstream-instapy-ctrl:latest
+0-12/1 22 * * * docker run -d --env-file /home/centos/instapy/instabot-users/or-vaknin.env -e COMMAND=stop fadude/upstream-instapy-ctrl:latest
+0 * * * * docker ps --filter "status=exited" | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm
