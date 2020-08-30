@@ -147,6 +147,10 @@ def start(ws, data):
     global NAMESPACE
     global SETTING
 
+    if PROCESS:
+        print('process already running. Wont start another one.')
+        return
+
     ienv = os.environ.copy()
     ienv['TOKEN'] = TOKEN
     ienv['NAMESPACE'] = data['namespace']
@@ -182,6 +186,15 @@ def stop(ws, data):
 
 
 HANDLERS['stop'] = stop
+
+
+def reset(ws, data):
+    stop(ws, data)
+    start(ws, data)
+
+
+HANDLERS['reset'] = reset
+
 
 if __name__ == '__main__':
     username = INSTAPY_USER

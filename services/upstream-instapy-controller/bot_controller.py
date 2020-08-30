@@ -13,6 +13,7 @@ SOCKET_ENDPOINT = os.getenv('SOCKET_ENDPOINT', 'wss://socket.instapy.io')
 INSTAPY_USER = os.getenv('INSTAPY_USER')
 INSTAPY_PASSWORD = os.getenv('INSTAPY_PASSWORD')
 IDENT = os.getenv('IDENT')
+COMMAND = os.getenv('COMMAND')
 
 if not IDENT:
     print('IDENT not provided')
@@ -44,12 +45,10 @@ def get_token(username, password):
 
 
 if __name__ == '__main__':
-    param = sys.argv[1]
-
-    operation = True if param == 'start' else False
+    operation = True if COMMAND == 'start' else False
     NAMESPACE = IDENT
 
-    print('bot-controller: {0}, action: {1}'.format(IDENT, param))
+    print('bot-controller: {0}, action: {1}'.format(IDENT, operation))
 
     username = INSTAPY_USER
     password = INSTAPY_PASSWORD
@@ -61,7 +60,7 @@ if __name__ == '__main__':
 
     socket.send(
         json.dumps(
-            {'handler': 'bot', "start": operation, 'namespace': NAMESPACE, 'setting': IDENT, 'bot': "{0}-bot".format(IDENT)}
+            {'handler': 'bot', "start": operation, 'namespace': NAMESPACE, 'setting': IDENT, 'bot': "{0}".format(IDENT)}
         )
     )
     socket.close()

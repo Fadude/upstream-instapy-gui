@@ -1,0 +1,4 @@
+git+git://github.com/timgrossmann/InstaPy@master
+websocket-client
+requests
+python-dotenv

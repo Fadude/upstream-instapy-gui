@@ -3,3 +3,6 @@ services:
   instapy:
     build: ./services/upstream-instapy
     image: fadude/upstream-instapy-client:latest
+  instapy-ctrl:
+    build: ./services/upstream-instapy-controller
+    image: fadude/upstream-instapy-ctrl:latest
