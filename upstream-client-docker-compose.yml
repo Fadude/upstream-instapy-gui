@@ -1,0 +1,5 @@
+version: '3'
+services:
+  instapy:
+    build: ./services/upstream-instapy
+    image: fadude/upstream-instapy-client:latest
