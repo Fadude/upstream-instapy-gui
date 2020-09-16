@@ -9,8 +9,7 @@ RUN sed -i "s#deb http://deb.debian.org/debian buster main#deb http://deb.debian
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/*
 	
-RUN pip3 install --upgrade pip
-RUN pip3 install setuptools --upgrade
+RUN pip3 install --upgrade setuptools pip
 RUN pip3 install grpcio
 
 COPY . .

@@ -1,60 +1,8 @@
 version: '3'
 services:
-  config:
-    build: ./services/config
-    image: fadude/instapy-config:latest
-    restart: unless-stopped
-    ports:
-      - 4002:80
-    volumes:
-      - ./services/config:/usr/instapy
-    environment:
-      - MODE=development
-      - MONGO_URL
-      - JWT_SECRET
-      - CIPHER_SECRET
-    depends_on:
-      - mongo
-  auth:
-    build: ./services/auth
-    image: fadude/instapy-auth:latest
-    command: ['npm', 'run', 'dev']
-    restart: unless-stopped
-    volumes:
-      - ./services/auth:/usr/instapy
-    ports:
-      - 4001:80
-    environment:
-      - MONGO_URL
-      - JWT_SECRET
-    depends_on:
-      - mongo
-  socket:
-    build: ./services/socket
-    image: fadude/instapy-socket:latest
-    command: ['npm', 'run', 'dev']
-    restart: unless-stopped
-    ports:
-      - 4005:80
-    volumes:
-      - ./services/socket:/usr/instapy
-    environment:
-      - JWT_SECRET
-    depends_on:
-      - mongo
-  mongo:
-    image: mongo
-    restart: unless-stopped
-    volumes:
-      - ./dev/mongo:/data/db
-    ports:
-      - 27017:27017
-  instapy:
-    build: ./services/instapy
-    image: fadude/instapy-client:latest
   instapy-upstream:
     build: ./services/upstream-instapy
-    image: fadude/upstream-instapy-client:latest
+    image: fadude/upstream-instapy-client-arm64:latest
   instapy-ctrl:
     build: ./services/upstream-instapy-controller
-    image: fadude/upstream-instapy-ctrl:latest
+    image: fadude/upstream-instapy-ctrl-arm64:latest
