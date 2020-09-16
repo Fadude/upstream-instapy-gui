@@ -2,7 +2,7 @@ version: '3'
 services:
   config:
     build: ./services/config
-    image: felixbreuer/instapy-config:latest
+    image: fadude/instapy-config:latest
     restart: unless-stopped
     ports:
       - 4002:80
@@ -17,7 +17,7 @@ services:
       - mongo
   auth:
     build: ./services/auth
-    image: felixbreuer/instapy-auth:latest
+    image: fadude/instapy-auth:latest
     command: ['npm', 'run', 'dev']
     restart: unless-stopped
     volumes:
@@ -31,7 +31,7 @@ services:
       - mongo
   socket:
     build: ./services/socket
-    image: felixbreuer/instapy-socket:latest
+    image: fadude/instapy-socket:latest
     command: ['npm', 'run', 'dev']
     restart: unless-stopped
     ports:
@@ -51,4 +51,10 @@ services:
       - 27017:27017
   instapy:
     build: ./services/instapy
-    image: felixbreuer/instapy-client:latest
+    image: fadude/instapy-client:latest
+  instapy-upstream:
+    build: ./services/upstream-instapy
+    image: fadude/upstream-instapy-client:latest
+  instapy-ctrl:
+    build: ./services/upstream-instapy-controller
+    image: fadude/upstream-instapy-ctrl:latest

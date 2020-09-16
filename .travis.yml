@@ -6,6 +6,10 @@ sudo: false
 services:
   - docker
 
+arch:
+  - amd64
+  - arm64  # please note arm64-graviton2 requires explicit virt: [lxd|vm] tag so it's recommended for jobs.include, see below
+
 cache:
   directories:
     - node_modules
@@ -24,9 +28,9 @@ deploy:
     script: bash scripts/deploy_docker.sh
     on:
       branch: master
-  - provider: pages
-    skip_cleanup: true
-    github_token: $GITHUB_TOKEN
-    local_dir: dist
-    on:
-      branch: master
+#  - provider: pages
+#    skip_cleanup: true
+#    github_token: $GITHUB_TOKEN
+#    local_dir: dist
+#    on:
+#      branch: master
